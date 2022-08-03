@@ -15,3 +15,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
+
+assets/uploads/dokumen/*
+assets/upload/kebijakan/*
+assets/upload/legal/*
