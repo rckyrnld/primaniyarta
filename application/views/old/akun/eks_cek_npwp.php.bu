@@ -1,0 +1,62 @@
+<section id="main-content">
+    <div class="wrapper site-min-height">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 mb-2">
+                    <div class="card rounded-0">
+                        <div class="card-body">
+                            <div class="bc">
+                                <ul>
+                                    <li><a href="#home">Beranda</a></li>
+                                    <li><a href="">Form Profil Perusahaan</a></li>
+                                    <li>Cek NPWP Perusahaan</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="py-2" style="font-size: 16px;">CEK STATUS PENDAFTARAN PERUSAHAAN</p>
+                                <div class="alert alert-warning rounded-0" role="alert">
+                                    Harap isi NPWP perusahaan untuk memeriksa apakah perusahaan sudah terdaftar sebelumnya
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <form name="frmceknpwp" id="frmceknpwp" method="post" action="<?php echo base_url('main/cek_npwp_eks'); ?>">
+                                            <div class="row mb-2">
+                                                <label for="nama" class="col-md-3 col-form-label">NPWP</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control rounded-0" id="npwp" name="npwp" maxlength="15" required>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-8 offset-md-3">
+                                                    <button type="submit" class="btn btn-success form-control rounded-0" name="submit" id="submit"><i class="fa-solid fa-magnifying-glass"></i> Cek Status Pendaftaran</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $this->load->view('akun/eks_tpl_progress'); ?>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    // validasi form
+    $("#frmceknpwp").validate({
+        rules: {
+            npwp: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            npwp: {
+                required: "NPWP harap diisi",
+                number: "Harap diisi dengan angka"
+            }
+        }
+    });
+</script>

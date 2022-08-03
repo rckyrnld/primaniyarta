@@ -1,0 +1,111 @@
+<?php
+//cek kategori primaniyarta
+$ck = $this->primamod->cek_kepala_daerah($this->decrypt_profilid);
+?>
+<section id="main-content">
+    <div class="wrapper site-min-height">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 mb-2">
+                    <div class="card rounded-0">
+                        <div class="card-body">
+                            <div class="bc">
+                                <ul>
+                                    <li>Beranda</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="py-2" style="font-size: 16px;">BERANDA</p>
+                                <div class="row">
+                                    <p>Selamat datang di pendaftaran Primaniyarta <?php echo date("Y"); ?>.</p>
+                                    <?php
+                                    if($ck==FALSE) {
+                                        //cek apakah sudah mengisi profil perusahaan
+                                        $c = $this->primamod->cek_user_eks($this->decrypt_email);
+                                        if($c==FALSE) {
+                                            ?>
+                                            <p>Akun Anda belum mendaftarkan profil perusahaan. Harap mengisi form <b>Profil Perusahaan</b> <a href="<?php echo base_url('akun/profil'); ?>">disini</a>.</p>
+                                            <?php
+                                        }
+                                        else {
+                                            //ambil badan usaha
+                                            $bu = $this->primamod->ambil_badanusaha($sessprofilid)->row()->nmbadanusaha;
+                                            //ambil nama perusahaaan
+                                            $np = $this->primamod->ambil_profil($sessprofilid)->row()->nmperusahaan;
+                                            ?>
+                                            <p>Nama Perusahaan terdaftar <b><?php echo $np.", ".$bu; ?></b>.
+                                            <?php
+                                            //cek apakah sudah memilih kategoti primaniyarta
+                                            $ck = $this->primamod->cek_kategori_eks($sessprofilid);
+                                            if($ck==TRUE) {
+                                                //ambil nama kategori primaniyarta yang dipilih
+                                                $nk = $this->primamod->ambil_kategori($this->session->sessidkat)->row()->nmkategori;
+                                                ?>
+                                                <p>Kategori Primaniyarta yang dipilih <b><?php echo $nk; ?></b>.</p>
+                                                <?php
+                                            }
+                                            else {
+                                                ?>
+                                                <p>Anda belum memilih Kategori Primaniyarta. Harap memilih <b>Kategori Primaniyarta</b> <a href="<?php echo base_url('akun/kategori'); ?>">disini</a>.</p>
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        //ambil data kepala daerah
+                                        $ak = $this->primamod->ambil_kepala_daerah($this->decrypt_profilid)->row();
+                                        ?>
+                                        <p><b>Ringkasan Pendaftaran Primaniyarta <?php echo date("Y"); ?></b></p>
+                                        <div class="row pb-2">
+                                            <label class="col-lg-3">Kategori Primaniyarta</label>
+                                            <div class="col-lg-9">Kepala Daerah Pendukung Ekspor</div>
+                                        </div>
+                                        <div class="row pb-2">
+                                            <label class="col-lg-3">Nama Kepala Daerah</label>
+                                            <div class="col-lg-9"><?php echo $ak->nmpejabat; ?></div>
+                                        </div>
+                                        <div class="row pb-2">
+                                            <label class="col-lg-3">Jabatan</label>
+                                            <div class="col-lg-9">
+                                            <?php
+                                            if($ak->idtingkat==1) { echo "Gubernur"; }
+                                            if($ak->idtingkat==2) { echo "Walikota"; }
+                                            if($ak->idtingkat==3) { echo "Bupati"; }
+                                            ?>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-2">
+                                            <label class="col-lg-3">Provinsi</label>
+                                            <div class="col-lg-9"><?php echo $ak->provinsi_id; ?></div>
+                                        </div>
+                                        <?php
+                                        if($ak->idtingkat!=1) {
+                                            ?>
+                                            <div class="row pb-2">
+                                                <label class="col-lg-3">Kota</label>
+                                                <div class="col-lg-9"><?php echo $ak->kota; ?></div>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                    <p>Pendaftaran Primaniyarta akan berakhir pada tanggal <b>31 Agustus 2022</b>. Harap melengkapi isian pendaftaran sebelum tanggal tersebut.</p>
+                                    <?php
+                                    if($this->decrypt_profilid==0) {
+                                        ?>
+                                        <hr>
+                                        <p class="py-2" style="font-size: 16px;">PENDAFTARAN KATEGORI KEPALA DAERAH PENDUKUNG EKSPOR</p>
+                                        <p>Untuk pendaftaran Primaniyarta kategori Kepala Daerah Pendukung Ekspor daftar <a href="<?php echo base_url('akun/kepaladaerah/profil'); ?>">disini</a></p>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $this->load->view('akun/eks_tpl_progress'); ?>
+            </div>
+        </div>
+    </div>
+</section>

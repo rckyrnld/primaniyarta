@@ -1,0 +1,205 @@
+<section id="main-content">
+    <div class="wrapper site-min-height">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 mb-2">
+                    <div class="card rounded-0">
+                        <div class="card-body">
+                            <div class="bc">
+                                <ul>
+                                    <li><a href="<?php echo base_url('akun'); ?>">Beranda</a></li>
+                                    <li>Kategori Primaniyarta</li>
+                                </ul>
+                            </div>
+                            <?php
+                            $skp = false;
+                            //cek data kategori primaniyarta yang dipilih
+                            $ckp = $this->primamod->ambil_kategori_pilih($this->decrypt_profilid);
+                            $nckp = $ckp->num_rows();
+                            if($nckp>0) { $skp = true; }
+                            ?>
+                            <div>
+                                <p class="py-2" style="font-size: 16px;">KATEGORI PRIMANIYARTA</p>
+                                <?php 
+                                if($this->decrypt_profilid==0) {
+                                    ?>
+                                    <div class="alert alert-danger rounded-0" role="alert">
+                                        Anda belum mengisi data <a href="<?php echo base_url('akun/profil'); ?>" style="text-decoration: none; font-weight: bold;">Profil Perusahaan</a>. Harap mengisi data Profil Perusahaan terlebih dahulu 
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                                <form id="frmkat" name="frmkat" method="post" action="<?php echo base_url('main/konfirmasi_kategori_eks'); ?>">
+                                    <div class="row">
+                                    <?php
+                                    if($skp==false) {
+                                        $dis = "disabled";
+                                        if($this->decrypt_profilid!=0) {
+                                            $dis = "";
+                                        }
+                                        ?>
+                                        <div class="col-lg-6">
+                                            <div class="form-group py-2">
+                                                <label for="idkategori" class="mb-2">Pilih Kategori Primaniyarta Utama</label>
+                                                <select class="form-control rounded-0" id="idkategori" name="idkategori" onchange="ambilketerangan()" required>
+                                                    <option value=""></option>
+                                                    <?php
+                                                    $d = $kat->result();
+                                                    $n = $kat->num_rows();
+                                                    if($n > 0) {
+                                                        for ($i = 0; $i < count($d); ++$i) {
+                                                        ?>
+                                                        <option value="<?php echo $d[$i]->idkategori; ?>" <?php if($d[$i]->idkategori==$vidkat) { echo "selected"; } ?>><?php echo $d[$i]->nmkategori; ?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div id="ketkatprima" name="ketkatprima" style="display: none">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group py-2">
+                                                <label for="idkategori2" class="mb-2">Pilih Kategori Primaniyarta 2 (Optional)</label>
+                                                <select class="form-control rounded-0" id="idkategori2" name="idkategori2" onchange="ambilketerangan2()">
+                                                    <option value=""></option>
+                                                    <?php
+                                                    $d = $kat->result();
+                                                    $n = $kat->num_rows();
+                                                    if($n > 0) {
+                                                        for ($i = 0; $i < count($d); ++$i) {
+                                                        ?>
+                                                        <option value="<?php echo $d[$i]->idkategori; ?>" <?php if($d[$i]->idkategori==$vidkat) { echo "selected"; } ?>><?php echo $d[$i]->nmkategori; ?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div id="ketkatprima2" name="ketkatprima2" style="display: none">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 form-group py-2">
+                                            <button type="submit" class="btn btn-success form-control rounded-0" name="submit" id="submit" <?php echo $dis; ?>><i class="fa-solid fa-circle-check"></i> Pilih</button>
+                                        </div>
+                                        <?php
+                                    }
+                                    else {
+                                        ?>
+                                        <div class="col-lg-12">
+                                            <p><b><?php echo $ckp->row()->nmkategori; ?></b></p>
+                                            <p><?php echo $ckp->row()->keterangan; ?></p>
+                                            <p class="form-text">Apabila ingin mengubah kategori primaniyarta harap menghubungi panitia Primaniyarta di alamat email p2ie@kemendag.go.id / csc@kemendag.go.id</p>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <!--<div class="<?php echo $col; ?> px-4">
+                                        <p>Nama Perusahaan</p>
+                                        <?php
+                                        //cek apakah sudah mendaftar perusahaan
+                                        $c = $this->primamod->cek_user_eks($this->decrypt_email);
+                                        if($c==FALSE) {
+                                            ?>
+                                            <p class="text-danger">Anda belum mengisi profil perusahaan</p>
+                                            <a class="btn btn-success rounded-0" href="<?php echo base_url('akun/profil'); ?>"><i class="fa-solid fa-pen-to-square"></i> Isi Profil Perusahaan</a>
+                                            <?php
+                                        }
+                                        else {
+                                            //ambil badan usaha
+                                            $bu = $this->primamod->ambil_badanusaha($this->decrypt_rofilid)->row()->nmbadanusaha;
+                                            //ambil nama perusahaaan
+                                            $np = $this->primamod->ambil_profil($this->decrypt_profilid)->row()->nmperusahaan;
+                                            ?>
+                                            <p><b><?php echo $np.", ".$bu; ?></b></p>
+                                            <?php
+                                        }
+                                        ?>
+                                        <p class="pt-4">Kategori yang dipilih:</p>
+                                        <?php 
+                                        if($skp==true) {
+                                            ?>
+                                            <p><b><?php echo $ckp->row()->nmkategori; ?></b></p>
+                                            <p><?php echo $ckp->row()->keterangan; ?></p>
+                                            <p class="form-text">Apabila ingin mengubah kategori primaniyarta harap menghubungi panitia Primaniyarta di alamat email p2ie@kemendag.go.id / csc@kemendag.go.id</p>
+                                            <?php
+                                        } 
+                                        else {
+                                            ?>
+                                            <p class="text-danger">Anda belum memilih kategori Primaniyarta</p>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>-->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $this->load->view('akun/eks_tpl_progress'); ?>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function ambilketerangan() {
+        var xid = document.getElementById("idkategori").value;
+        var xdv = document.getElementById("ketkatprima");
+
+        if (xid === "") {
+            xdv.style.display = "none";
+        } else {
+            xdv.style.display = "block";
+        }
+
+        $.ajax({
+            url: "<?php echo base_url('main/ambil_keterangan'); ?>",
+            type: "POST",
+            data: {
+               idkat: xid
+            },
+            dataType: "json",
+            success: function(res) {
+                $("#ketkatprima").html(res);
+            }
+        });
+
+    }
+
+    function ambilketerangan2() {
+        var xid2 = document.getElementById("idkategori2").value;
+        var xdv2 = document.getElementById("ketkatprima2");
+
+        if (xid2 === "") {
+            xdv2.style.display = "none";
+        } else {
+            xdv2.style.display = "block";
+        }
+
+        $.ajax({
+            url: "<?php echo base_url('main/ambil_keterangan'); ?>",
+            type: "POST",
+            data: {
+               idkat: xid2
+            },
+            dataType: "json",
+            success: function(res) {
+                $("#ketkatprima2").html(res);
+            }
+        });
+    }
+
+    // validasi form
+    $("#frmkat").validate({
+        rules: {
+            idkategori: "required"
+        },
+        messages: {
+            idkategori: "Kategori Primaniyarta harap dipilih"
+        }
+    });
+</script>
