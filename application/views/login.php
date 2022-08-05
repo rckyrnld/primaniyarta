@@ -6,8 +6,9 @@
             <div class="card rounded-0">
                 <div class="card-header">PENGUMUMAN</div>
                 <div class="card-body">
-                    <p class="mb-4" style="font-size: 20px;"><b>Pengumuman Perpanjangan Pendaftaran Primaniyarta 2022</b></p>
-                    <p style="font-size: 18px;">Pendaftaran Penghargaan Primaniyarta 2022 <b>diperpanjang</b> sampai <b>1 Agustus 2022</b></p>
+                    <p style="font-size: 20px;" class="text-center"><b><span style="color: red;">PENGUMUMAN</span></b></p>
+		    <p style="font-size: 20px;" class="text-center mb-5"><b>Perpanjangan Pendaftaran Primaniyarta 2022</b></p>
+                    <p style="font-size: 18px;">Pendaftaran Penghargaan Primaniyarta 2022 <b>diperpanjang</b> sampai <b>5 Agustus 2022</b></p>
                     <p style="font-size: 18px;">Segera manfaatkan kesempatan ini dengan mendaftarkan perusahaan Anda. Bagi perusahaan yang telah mendaftar masih ada kesempatan untuk melengkapi form registrasi Primaniyarta 2022.</p>
                 </div>
             </div>
